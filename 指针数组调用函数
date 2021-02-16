@@ -1,0 +1,61 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define EPSINON 0.000001 // 定义允许的误差
+
+double add(double x, double y);
+double sub(double x, double y);
+double mul(double x, double y);
+double divi(double x, double y);
+
+double add(double x, double y)
+{
+        return x + y;
+}
+
+double sub(double x, double y)
+{
+        return x - y;
+}
+
+double mul(double x, double y)
+{
+        return x * y;
+}
+
+double divi(double x, double y)
+{
+        // 不要对浮点数进行==或!=比较，因为IEEE浮点数是一个近似值
+        if (y >= -EPSINON && y <= EPSINON)
+        {
+                printf("除数不能为0\n");
+                // 如果除数为0，调用exit()函数直接退出程序
+                exit(1);
+        }
+        else
+        {
+                return x / y;
+        }
+}
+
+int main(void)
+{
+        int i;
+        double x, y, result;
+        double (*func_table[4])(double, double) = {add, sub, mul, divi};            //定义一个指针数组
+
+        printf("请输入两个数：");
+        scanf("%lf %lf", &x, &y);
+
+        printf("对这两个数进行加减乘除后的结果是：");
+        for (i = 0; i < 4; i++)
+        {
+                result = (*func_table[i])(x, y);
+                printf("%.2f ", result);
+        }
+        putchar('\n');
+
+        return 0;
+}
+
